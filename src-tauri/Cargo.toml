@@ -1,0 +1,31 @@
+[package]
+name = "take-drive-ownership"
+version = "1.0.0"
+description = "Take ownership & fix drive permissions"
+authors = ["zuaq"]
+edition = "2021"
+
+[lib]
+name = "take_drive_ownership_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[target.'cfg(windows)'.build-dependencies]
+winresource = "0.1"
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+walkdir = "2"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

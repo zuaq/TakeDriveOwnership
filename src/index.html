@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TakeDriveOwnership</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="window" data-theme="dark" id="appWindow">
+  <!-- Windows title chrome with drag region -->
+  <div class="title-chrome" data-tauri-drag-region>
+    <span class="title-chrome-text" data-tauri-drag-region>TakeDriveOwnership</span>
+    <div class="win-btns">
+      <button class="win-btn" onclick="minimizeWindow()" title="Minimize">&#x2500;</button>
+      <button class="win-btn" onclick="maximizeWindow()" title="Maximize">&#x25A1;</button>
+      <button class="win-btn close" onclick="closeWindow()" title="Close">&#x2715;</button>
+    </div>
+  </div>
+
+  <!-- TITLE BAR -->
+  <div class="title-bar" data-tauri-drag-region>
+    <div class="title-row">
+      <h1 data-tauri-drag-region>&#x25C6;&ensp;TAKEDRIVEOWNERSHIP <span class="version">v1.0</span></h1>
+      <div class="title-actions">
+        <button class="title-btn help-btn" id="helpBtn" onclick="toggleHelp()" title="Help">?</button>
+        <button class="title-btn lang-toggle" id="langBtn" onclick="toggleLang()" title="Switch language">TH</button>
+        <button class="title-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark/light mode">&#x1F319;</button>
+      </div>
+    </div>
+    <div class="steps-bar">
+      <span class="step-tag"><span class="step-icon">&#x2713;</span> <span id="t_step1">Take file ownership</span></span>
+      <span class="step-sep">&#x2192;</span>
+      <span class="step-tag"><span class="step-icon">&#x2713;</span> <span id="t_step2">Grant full access</span></span>
+      <span class="step-sep">&#x2192;</span>
+      <span class="step-tag"><span class="step-icon">&#x2713;</span> <span id="t_step3">Remove read-only lock</span></span>
+      <span class="step-sep">&#x2192;</span>
+      <span class="step-tag"><span class="step-icon">&#x2713;</span> <span id="t_step4">Unblock files from other PC</span></span>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <!-- Target selection -->
+    <div class="section-row">
+      <span class="section-label" id="drivesLabel">SELECT TARGET</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="drives-row" id="drivesRow"></div>
+
+    <!-- Actions -->
+    <div class="actions-area">
+      <div class="actions-row">
+        <div class="btn-group">
+          <button class="btn btn-quick" id="btnQuick" onclick="quickFix()">&#x26A1;&ensp;QUICK FIX</button>
+          <div class="btn-desc" id="t_quickDesc">Fix everything in one pass &mdash; fastest</div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-start" id="btnStart" onclick="startFix()">&#x25B8;&ensp;SCAN &amp; FIX</button>
+          <div class="btn-desc" id="t_startDesc">Scan first, then fix with detailed report</div>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-folder" id="btnFolder" onclick="browseFolder()">&#x1F4C1;&ensp;<span id="t_folderBtn">Fix Folder</span></button>
+          <div class="btn-desc folder-path" id="folderPath" style="display:none">
+            <span id="folderPathText"></span>
+            <button class="folder-clear-btn" onclick="clearFolder()">&#x2715;</button>
+          </div>
+          <div class="btn-desc" id="t_folderDesc">Pick a specific folder to fix</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results">
+    <div class="results-header">
+      <span class="section-label" id="t_results">RESULTS</span>
+      <div class="section-line"></div>
+      <button class="btn-export" id="t_export" onclick="exportLog()">Export Log</button>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-title" id="t_statScanned">SCANNED</div>
+        <div class="stat-num c-muted" id="sScanned">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title" id="t_statIssues">ISSUES</div>
+        <div class="stat-num c-warn" id="sIssues">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title" id="t_statFixed">FIXED</div>
+        <div class="stat-num c-ok" id="sFixed">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title" id="t_statFailed">FAILED</div>
+        <div class="stat-num c-danger" id="sFailed">0</div>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-bar" id="pBar">
+        <div class="progress-fill" id="pFill"></div>
+      </div>
+      <div class="progress-text" id="pText">Ready.</div>
+    </div>
+
+    <div class="log-area" id="logArea"></div>
+  </div>
+
+  <!-- COFFEE BUTTON -->
+  <a class="coffee-btn" href="https://buymeacoffee.com/zuaq" target="_blank" title="Buy me a coffee">&#x2615; Buy me a coffee</a>
+
+  <!-- HELP OVERLAY -->
+  <div class="help-overlay" id="helpOverlay" style="display:none" onclick="toggleHelp()">
+    <div class="help-panel" onclick="event.stopPropagation()">
+      <div class="help-header">
+        <span class="help-title" id="t_helpTitle">About This Program</span>
+        <button class="help-close" onclick="toggleHelp()">&#x2715;</button>
+      </div>
+      <div class="help-body" id="helpBody"></div>
+    </div>
+  </div>
+</div>
+
+<script src="i18n.js"></script>
+<script src="theme.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
