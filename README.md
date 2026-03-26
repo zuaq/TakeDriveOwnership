@@ -7,10 +7,12 @@ Take ownership & fix drive permissions for Windows.
 ![Built with](https://img.shields.io/badge/built%20with-Tauri%20v2%20%2B%20Rust-24c8db)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-yellow?logo=buymeacoffee&logoColor=white)](https://buymeacoffee.com/zuaq)
 
+**English** | [ภาษาไทย](README.th.md)
+
 A lightweight Windows utility that fixes NTFS file permission issues when moving hard drives (HDD/SSD) between PCs. Resolves "Access Denied" errors, read-only Excel files, and blocked files caused by SID mismatch, missing ACL entries, and Zone Identifier (Mark of the Web). Built with Tauri v2 (Rust + HTML/CSS/JS). Single `.exe`, no installation required.
 
 > **Common searches this solves:** take ownership of files, fix drive permissions, access denied after moving hard drive, Excel protected view after drive swap, NTFS permission fix tool, reset file ownership Windows, icacls recursive fix, remove mark of the web, unblock files from another computer
-
+![1774516236756](image/README/1774516236756.png)![1774516238864](image/README/1774516238864.png)![1774516794143](image/README/1774516794143.png)
 ---
 
 ## Why this exists
