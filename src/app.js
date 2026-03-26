@@ -4,12 +4,28 @@
 
 let isRunning = false;
 
-/* ── Tauri API shortcuts ── */
-const { invoke } = window.__TAURI__.core;
-const { listen } = window.__TAURI__.event;
-const { open: dialogOpen, save: dialogSave } = window.__TAURI__.dialog;
-const { writeTextFile } = window.__TAURI__.fs;
-const { getCurrentWindow } = window.__TAURI__.window;
+/* ── Tauri API shortcuts (safe access) ── */
+const T = window.__TAURI__ || {};
+const invoke = T.core ? T.core.invoke : async () => { console.warn('Tauri invoke not available'); };
+const listen = T.event ? T.event.listen : async () => () => {};
+const getCurrentWindow = (T.window || T.webviewWindow || {}).getCurrentWindow || (() => ({
+  minimize: () => {}, toggleMaximize: () => {}, close: () => {}
+}));
+
+// Plugins — may not be available without npm packages
+async function dialogOpen(opts) {
+  if (T.dialog && T.dialog.open) return T.dialog.open(opts);
+  // Fallback: use Tauri invoke
+  try { return await invoke('plugin:dialog|open', opts); } catch(e) { console.warn('Dialog not available', e); return null; }
+}
+async function dialogSave(opts) {
+  if (T.dialog && T.dialog.save) return T.dialog.save(opts);
+  try { return await invoke('plugin:dialog|save', opts); } catch(e) { console.warn('Save dialog not available', e); return null; }
+}
+async function writeTextFile(path, contents) {
+  if (T.fs && T.fs.writeTextFile) return T.fs.writeTextFile(path, contents);
+  try { return await invoke('plugin:fs|write_text_file', { path, contents }); } catch(e) { console.warn('FS not available', e); }
+}
 
 /* ══════════════════════════════════════════
    Window controls
