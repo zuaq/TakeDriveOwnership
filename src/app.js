@@ -84,6 +84,7 @@ function renderDriveCards(drives) {
 }
 
 function toggleDrive(card) {
+  if (card.classList.contains('disabled')) return;
   const cb = card.querySelector('input[type="checkbox"]');
   if (cb) cb.checked = !cb.checked;
 }
@@ -100,6 +101,7 @@ async function browseFolder() {
       document.getElementById('folderPathText').textContent = selected;
       document.getElementById('folderPath').style.display = 'flex';
       document.getElementById('t_folderDesc').style.display = 'none';
+      setDrivesDisabled(true);
     }
   } catch (err) {
     appendLog('Error browsing folder: ' + err, 'danger');
@@ -111,6 +113,17 @@ function clearFolder() {
   document.getElementById('folderPathText').textContent = '';
   document.getElementById('folderPath').style.display = 'none';
   document.getElementById('t_folderDesc').style.display = '';
+  setDrivesDisabled(false);
+}
+
+function setDrivesDisabled(disabled) {
+  document.querySelectorAll('.drive-card').forEach(c => {
+    c.classList.toggle('disabled', disabled);
+    const cb = c.querySelector('input[type="checkbox"]');
+    if (cb) cb.disabled = disabled;
+  });
+  const label = document.getElementById('drivesLabel');
+  if (label) label.style.opacity = disabled ? '0.4' : '1';
 }
 
 /* ══════════════════════════════════════════
