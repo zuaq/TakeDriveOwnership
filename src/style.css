@@ -270,18 +270,19 @@ body {
   margin-bottom: 10px;
 }
 .folder-browse-btn {
-  background: none;
-  border: 1px dashed var(--bg4);
-  color: var(--fg2);
-  font-size: 12px;
+  background: var(--bg3);
+  border: 1px solid var(--accent2);
+  color: var(--accent2);
+  font-size: 13px;
+  font-weight: 600;
   font-family: inherit;
-  padding: 5px 12px;
+  padding: 7px 16px;
   cursor: pointer;
   transition: all 0.2s;
 }
 .folder-browse-btn:hover {
-  border-color: var(--accent2);
-  color: var(--accent2);
+  background: var(--accent2);
+  color: var(--bg);
 }
 .folder-path-display {
   display: flex;
