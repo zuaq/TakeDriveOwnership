@@ -9,10 +9,10 @@ const T = window.__TAURI__ || {};
 const invoke = T.core ? T.core.invoke : async () => { console.warn('invoke N/A'); };
 const listen = T.event ? T.event.listen : async () => () => {};
 
-/* ── Window controls via invoke (most reliable in Tauri v2) ── */
-function minimizeWindow() { invoke('plugin:window|minimize', { label: 'main' }).catch(() => {}); }
-function maximizeWindow() { invoke('plugin:window|toggle_maximize', { label: 'main' }).catch(() => {}); }
-function closeWindow() { invoke('plugin:window|close', { label: 'main' }).catch(() => {}); }
+/* ── Window controls ── */
+function minimizeWindow() { invoke('win_minimize').catch(() => {}); }
+function maximizeWindow() { invoke('win_maximize').catch(() => {}); }
+function closeWindow() { invoke('win_close').catch(() => {}); }
 
 /* ── Open external URL ── */
 async function openExternal(url) {

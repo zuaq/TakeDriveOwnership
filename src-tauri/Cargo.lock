@@ -3581,7 +3581,7 @@ dependencies = [
 
 [[package]]
 name = "take-drive-ownership"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "serde",
  "serde_json",
