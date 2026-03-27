@@ -4,36 +4,40 @@
 
 let isRunning = false;
 
-/* ── Tauri API shortcuts (safe access) ── */
+/* ── Tauri API (safe access with multiple fallback paths) ── */
 const T = window.__TAURI__ || {};
-const invoke = T.core ? T.core.invoke : async () => { console.warn('Tauri invoke not available'); };
+const invoke = T.core ? T.core.invoke : async () => { console.warn('invoke N/A'); };
 const listen = T.event ? T.event.listen : async () => () => {};
-const getCurrentWindow = (T.window || T.webviewWindow || {}).getCurrentWindow || (() => ({
-  minimize: () => {}, toggleMaximize: () => {}, close: () => {}
-}));
 
-// Plugins — may not be available without npm packages
+/* ── Window controls via invoke (most reliable in Tauri v2) ── */
+function minimizeWindow() { invoke('plugin:window|minimize', { label: 'main' }).catch(() => {}); }
+function maximizeWindow() { invoke('plugin:window|toggle_maximize', { label: 'main' }).catch(() => {}); }
+function closeWindow() { invoke('plugin:window|close', { label: 'main' }).catch(() => {}); }
+
+/* ── Open external URL ── */
+async function openExternal(url) {
+  try { await invoke('plugin:opener|open_url', { url }); return; } catch(e) {}
+  try { await invoke('plugin:shell|open', { path: url }); return; } catch(e) {}
+  window.open(url, '_blank');
+}
+
+/* ── Dialog ── */
 async function dialogOpen(opts) {
   if (T.dialog && T.dialog.open) return T.dialog.open(opts);
-  // Fallback: use Tauri invoke
-  try { return await invoke('plugin:dialog|open', opts); } catch(e) { console.warn('Dialog not available', e); return null; }
+  try { return await invoke('plugin:dialog|open', opts); } catch(e) { return null; }
 }
 async function dialogSave(opts) {
   if (T.dialog && T.dialog.save) return T.dialog.save(opts);
-  try { return await invoke('plugin:dialog|save', opts); } catch(e) { console.warn('Save dialog not available', e); return null; }
+  try { return await invoke('plugin:dialog|save', opts); } catch(e) { return null; }
 }
 async function writeTextFile(path, contents) {
   if (T.fs && T.fs.writeTextFile) return T.fs.writeTextFile(path, contents);
-  try { return await invoke('plugin:fs|write_text_file', { path, contents }); } catch(e) { console.warn('FS not available', e); }
+  try { return await invoke('plugin:fs|write_text_file', { path, contents }); } catch(e) {}
 }
 
 /* ══════════════════════════════════════════
-   Window controls
+   Help overlay
    ══════════════════════════════════════════ */
-
-function minimizeWindow() { getCurrentWindow().minimize(); }
-function maximizeWindow() { getCurrentWindow().toggleMaximize(); }
-function closeWindow() { getCurrentWindow().close(); }
 
 function toggleHelp() {
   const overlay = document.getElementById('helpOverlay');
@@ -423,6 +427,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnFolder').addEventListener('click', browseFolder);
   document.getElementById('folderClearBtn').addEventListener('click', clearFolder);
   document.getElementById('btnExport').addEventListener('click', exportLog);
+
+  // Coffee / external links
+  document.getElementById('coffeeBtn').addEventListener('click', function() {
+    openExternal('https://buymeacoffee.com/zuaq');
+  });
 
   // Help overlay
   document.getElementById('helpOverlay').addEventListener('click', toggleHelp);
