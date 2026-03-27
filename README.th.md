@@ -9,7 +9,7 @@
 
 [English](README.md) | **ภาษาไทย**
 
-เครื่องมือ Windows ขนาดเล็กสำหรับแก้ปัญหาสิทธิ์ NTFS เมื่อย้ายฮาร์ดดิสก์ (HDD/SSD) จากเครื่องหนึ่งไปอีกเครื่อง แก้ปัญหา "Access Denied", ไฟล์ Excel เปิดแบบอ่านอย่างเดียว, ไฟล์ถูกบล็อกจาก Windows เนื่องจาก SID ไม่ตรง, ไม่มีสิทธิ์ ACL, และ Zone Identifier (Mark of the Web) สร้างด้วย Tauri v2 (Rust + HTML/CSS/JS) ไฟล์ `.exe` เดียว ไม่ต้องติดตั้ง
+เครื่องมือ Windows ขนาดเล็กสำหรับแก้ปัญหาสิทธิ์ NTFS เมื่อย้ายฮาร์ดดิสก์ (HDD/SSD) จากเครื่องหนึ่งไปอีกเครื่อง แก้ปัญหา "Access Denied", ไฟล์ Excel เปิดแบบอ่านอย่างเดียว, ไฟล์ถูกบล็อกจาก Windows เนื่องจาก SID ไม่ตรง, ไม่มีสิทธิ์ ACL, และ Zone Identifier (Mark of the Web) สร้างด้วย Tauri v2 (Rust + HTML/CSS/JS) 
 
 > **ปัญหาที่โปรแกรมนี้แก้ได้:** เปลี่ยนเจ้าของไฟล์ Windows, แก้สิทธิ์ไดรฟ์, Access Denied ย้ายฮาร์ดดิสก์, Excel Protected View หลังย้ายไดรฟ์, แก้สิทธิ์ NTFS, รีเซ็ตเจ้าของไฟล์, icacls แก้สิทธิ์ทั้งไดรฟ์, ลบ Mark of the Web, ปลดบล็อกไฟล์จากเครื่องอื่น, takeown Windows 10, แก้ไฟล์อ่านอย่างเดียว
 
