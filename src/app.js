@@ -407,6 +407,28 @@ function escapeHtml(str) {
    ══════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Window controls
+  document.getElementById('winMin').addEventListener('click', minimizeWindow);
+  document.getElementById('winMax').addEventListener('click', maximizeWindow);
+  document.getElementById('winClose').addEventListener('click', closeWindow);
+
+  // Title bar buttons
+  document.getElementById('helpBtn').addEventListener('click', toggleHelp);
+  document.getElementById('langBtn').addEventListener('click', toggleLang);
+  document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+
+  // Action buttons
+  document.getElementById('btnQuick').addEventListener('click', quickFix);
+  document.getElementById('btnStart').addEventListener('click', startFix);
+  document.getElementById('btnFolder').addEventListener('click', browseFolder);
+  document.getElementById('folderClearBtn').addEventListener('click', clearFolder);
+  document.getElementById('btnExport').addEventListener('click', exportLog);
+
+  // Help overlay
+  document.getElementById('helpOverlay').addEventListener('click', toggleHelp);
+  document.getElementById('helpPanel').addEventListener('click', function(e) { e.stopPropagation(); });
+  document.getElementById('helpClose').addEventListener('click', toggleHelp);
+
   applyLang();
   showWelcome();
   loadDrives();

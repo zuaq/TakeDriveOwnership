@@ -1,6 +1,6 @@
 [package]
 name = "take-drive-ownership"
-version = "1.0.1"
+version = "1.0.2"
 description = "Take ownership & fix drive permissions"
 authors = ["zuaq"]
 edition = "2021"
