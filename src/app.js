@@ -100,7 +100,7 @@ async function browseFolder() {
     if (selected) {
       document.getElementById('folderPathText').textContent = selected;
       document.getElementById('folderPath').style.display = 'flex';
-      document.getElementById('t_folderDesc').style.display = 'none';
+      document.getElementById('btnFolder').style.display = 'none';
       setDrivesDisabled(true);
     }
   } catch (err) {
@@ -112,7 +112,7 @@ function clearFolder() {
   if (isRunning) return;
   document.getElementById('folderPathText').textContent = '';
   document.getElementById('folderPath').style.display = 'none';
-  document.getElementById('t_folderDesc').style.display = '';
+  document.getElementById('btnFolder').style.display = '';
   setDrivesDisabled(false);
 }
 
@@ -177,16 +177,7 @@ async function startFix() {
   clearStats();
   clearLog();
 
-  const t = i18n[lang];
-  appendLog('\u25C6 TakeDriveOwnership', 'accent');
-  appendLog('  ' + (t.log_started || 'Started') + ' ' + timeStamp(), 'muted');
-  appendLog('', 'muted');
-  if (folder) {
-    appendLog((t.log_target || 'Target') + ': ' + folder, 'muted');
-  } else {
-    appendLog((t.log_drives || 'Drives') + ': ' + drives.join(', '), 'muted');
-  }
-  appendLog('', 'muted');
+  appendLog('Scan & Fix \u2014 ' + (folder || drives.join(', ')), 'accent');
 
   const unlisten = await listen('fix-progress', (event) => {
     updateProgress(event.payload);
@@ -226,17 +217,7 @@ async function quickFix() {
   clearStats();
   clearLog();
 
-  const t = i18n[lang];
-  appendLog('\u25C6 TakeDriveOwnership', 'accent');
-  appendLog('  ' + (t.log_started || 'Started') + ' ' + timeStamp(), 'muted');
-  appendLog('', 'muted');
-  appendLog((t.btnQuick || 'Quick Fix'), 'muted');
-  if (folder) {
-    appendLog((t.log_target || 'Target') + ': ' + folder, 'muted');
-  } else {
-    appendLog((t.log_drives || 'Drives') + ': ' + drives.join(', '), 'muted');
-  }
-  appendLog('', 'muted');
+  appendLog('Quick Fix \u2014 ' + (folder || drives.join(', ')), 'accent');
 
   const unlisten = await listen('fix-progress', (event) => {
     updateProgress(event.payload);
@@ -269,7 +250,6 @@ function updateUIRunning(running) {
   const t = i18n[lang];
   document.getElementById('btnQuick').disabled = running;
   document.getElementById('btnStart').disabled = running;
-  document.getElementById('btnFolder').disabled = running;
 
   if (running) {
     document.getElementById('btnStart').textContent = t.btnRunning;
@@ -333,10 +313,14 @@ function showResult(result) {
     '   ' + (t.statFailed || 'Failed') + ': ' + formatNum(result.failed || 0) +
     (elapsed ? '   (' + elapsed + ')' : '');
 
+  const fixed = formatNum(result.fixed || 0);
+  const failed = result.failed || 0;
   appendLog('', 'muted');
-  appendLog((t.log_done || 'Done!') + ' ' + formatNum(result.fixed || 0) +
-    ' \u2014 ' + (elapsed || ''), 'ok');
-  appendLog((t.log_finished || 'Finished') + ' ' + timeStamp(), 'muted');
+  if (failed === 0) {
+    appendLog('\u2713 Done \u2014 ' + fixed + ' fixed' + (elapsed ? ' (' + elapsed + ')' : ''), 'ok');
+  } else {
+    appendLog('\u2713 Done \u2014 ' + fixed + ' fixed, ' + failed + ' failed' + (elapsed ? ' (' + elapsed + ')' : ''), 'warn');
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -358,13 +342,7 @@ function clearLog() {
 }
 
 function showWelcome() {
-  const t = i18n[lang];
-  clearLog();
-  appendLog('\u2002\u25C6\u2002TakeDriveOwnership', 'accent');
-  appendLog('\u2003\u2003\u2003by zuaq', 'muted');
-  appendLog('', 'muted');
-  appendLog('\u2002' + (t.log_welcome1 || ''), 'muted');
-  appendLog('\u2002' + (t.log_welcome2 || ''), 'muted');
+  // Log area starts empty — shows content only when user runs a fix
 }
 
 /* ══════════════════════════════════════════

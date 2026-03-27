@@ -263,32 +263,43 @@ body {
 }
 
 /* ── Mode pills ── */
-.btn-folder {
-  background: linear-gradient(135deg, var(--btn-f-bg), var(--btn-f-bg2));
-  color: var(--btn-f-fg);
-  font-size: 14px;
-  padding: 11px 28px;
-  letter-spacing: 0.3px;
+.folder-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
 }
-.folder-path {
+.folder-browse-btn {
+  background: none;
+  border: 1px dashed var(--bg4);
+  color: var(--fg2);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.folder-browse-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
+.folder-path-display {
   display: flex;
   align-items: center;
   gap: 6px;
   background: var(--bg3);
   border: 1px solid var(--accent2);
   padding: 4px 8px 4px 10px;
-  margin-top: 4px;
-  max-width: 260px;
   font-size: 12px;
+  max-width: 400px;
 }
-.folder-path span:first-child {
+.folder-path-display span:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--accent2);
   font-weight: 600;
 }
-.folder-path + .btn-desc { display: none; }
 .folder-clear-btn {
   background: none;
   border: none;
